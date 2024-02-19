@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors'
 import dotenv from 'dotenv';
 import mongoose from 'mongoose'
 import userRoutes from './routes/user.route.js';
@@ -6,11 +7,14 @@ import authRoutes from './routes/auth.route.js'
 
 dotenv.config();
 const app = express();
-const port = 7000;
+const port = 3000;
 
 app.use(express.json())
-
-mongoose.connect(process.env.MONGO_URL).then(()=>{console.log("MongoDB is connected")}).catch((err)=>{console.log(err);})
+app.use(express.urlencoded({extended:false}));
+app.use(cors({
+    origin: 'http://localhost:3000',
+  }));
+mongoose.connect(process.env.MONGO).then(()=>{console.log("MongoDB is connected")}).catch((err)=>{console.log(err);})
 
 app.use("/api/user",userRoutes)
 app.use('/api/auth',authRoutes);

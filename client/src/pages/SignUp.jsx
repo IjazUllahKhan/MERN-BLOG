@@ -21,10 +21,14 @@ export default function SignUp() {
       setErrorMessage(null)
       const res = await fetch('/api/auth/signup',{
         method:'POST',
-        headers:{ 'Content-Type ' : 'application/json'},
+        headers:{ 'Content-Type' : 'application/json'},
         body: JSON.stringify(formData)
       })
+      if (!res.ok) {
+        throw new Error('Network response was not ok.');
+      }
       const data = await res.json();
+      
       if (data.success === false){
         return setErrorMessage(data.message)
       }
@@ -92,7 +96,7 @@ export default function SignUp() {
                 <Spinner size='sm' />
                 <span className='pl-3'>Loading...</span>
                 </>
-              ): "Sign UP"
+              ): ( "Sign UP")
             }
           </Button>
         </form>
